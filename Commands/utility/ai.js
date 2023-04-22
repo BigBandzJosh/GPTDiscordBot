@@ -16,6 +16,7 @@ module.exports = {
                 .setDescription('The message for AI to process')
                 .setRequired(true)),
     async execute(interaction) {
+        //This is how you get the message from the user
         const message = interaction.options.getString('message');
         const response = await openai.createChatCompletion({
             model: 'gpt-3.5-turbo',
