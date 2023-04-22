@@ -3,13 +3,14 @@ const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const {config} = require('dotenv');
 config();
-
+//create a new client
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
+//create a new collection for commands
 client.commands = new Collection();
+
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
-
+// Grab all the command files from the commands directory you created earlier
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -23,7 +24,7 @@ for (const folder of commandFolders) {
 		}
 	}
 }
-
+// Grab all the event files from the events directory you created earlier
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 for (const file of eventFiles) {
@@ -36,5 +37,5 @@ for (const file of eventFiles) {
     }
 }
 
-
+//login to the bot with env token
 client.login(process.env.token);
