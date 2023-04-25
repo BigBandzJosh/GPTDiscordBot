@@ -18,8 +18,10 @@ module.exports = {
     async execute(interaction) {
         //This is how you get the message from the user
         const userMessage = interaction.options.getString('message');
+        // add user message to screen
         // send a thinking response
         await interaction.reply({ content: 'Thinking...', ephemeral: true })
+        // create the message array
         const messages = [{ role: 'user', content: `User: ${userMessage}` }];
             try {
         //This is how you send a message back to the user
