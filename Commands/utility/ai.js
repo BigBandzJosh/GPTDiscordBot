@@ -17,16 +17,27 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction) {
         //This is how you get the message from the user
-        const message = interaction.options.getString('message');
+        const userMessage = interaction.options.getString('message');
+        // send a thinking response
+        await interaction.reply({ content: 'Thinking...', ephemeral: true })
+        const messages = [{ role: 'user', content: `User: ${userMessage}` }];
+            try {
+        //This is how you send a message back to the user
         const response = await openai.createChatCompletion({
             model: 'gpt-3.5-turbo',
             temperature: 0.9,
             n: 1,
-            messages: [{ role: 'user', content: message }],
+            messages,
             stop: ['Human:', 'AI:'],
         });
       
         const aiResponse = response.data.choices[0].message.content;
-        await interaction.reply(`AI: ${aiResponse}`);
+        await interaction.editReply(`AI: ${aiResponse}`);
+    } catch (error) {
+        console.error(`Error executing ${interaction.commandName}`);
+        console.error(error);
+        await interaction.editReply({content: 'There was an error processing your request', ephemeral: true});
+    }
+        
     },
 };
