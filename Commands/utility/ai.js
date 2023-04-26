@@ -13,14 +13,13 @@ module.exports = {
         .setDescription('Replies with AI generated text!')
         .addStringOption(option =>
             option.setName('message')
-                .setDescription('The message for AI to process')
+                .setDescription('The message for GPT-3.5-Turbo to process')
                 .setRequired(true)),
     async execute(interaction) {
         //This is how you get the message from the user
         const userMessage = interaction.options.getString('message');
-        // add user message to screen
         // send a thinking response
-        await interaction.reply({ content: 'Thinking...', ephemeral: true })
+        await interaction.reply('Thinking...')
         // create the message array
         const messages = [{ role: 'user', content: `User: ${userMessage}` }];
             try {
@@ -34,7 +33,8 @@ module.exports = {
         });
       
         const aiResponse = response.data.choices[0].message.content;
-        await interaction.editReply(`AI: ${aiResponse}`);
+        console.log(response.data.usage.total_tokens);
+        await interaction.editReply(`${interaction.user.id}: ${userMessage} \n\nAI: ${aiResponse}`);
     } catch (error) {
         console.error(`Error executing ${interaction.commandName}`);
         console.error(error);
