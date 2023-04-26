@@ -34,7 +34,7 @@ module.exports = {
       
         const aiResponse = response.data.choices[0].message.content;
         console.log(response.data.usage.total_tokens);
-        await interaction.editReply(`${interaction.user.id}: ${userMessage} \n\nAI: ${aiResponse}`);
+        await interaction.editReply(`${interaction.user.tag}: ${userMessage} \n\nAI: ${aiResponse}`);
     } catch (error) {
         console.error(`Error executing ${interaction.commandName}`);
         console.error(error);
