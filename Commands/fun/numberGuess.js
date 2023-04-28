@@ -19,12 +19,12 @@ while (attempts > 0) {
 
     //if user is correct, break out of loop
     if (userNumber === randomNumber) {
-        await interaction.editReply('You guessed the number!');
+        await interaction.editReply('You guessed the number!' + randomNumber);
         break;
     }
     // If the user didn't guess the number
     else {
-        await interaction.editReply(`Wrong number! You have ${attempts} attempts left`);
+        await interaction.editReply(`Wrong number! You have ${attempts} attempts left` + randomNumber);
         attempts--;
     }
 
