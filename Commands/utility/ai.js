@@ -1,11 +1,12 @@
 const {SlashCommandBuilder} = require('discord.js');
 const {config} = require('dotenv');
 config();
-const { Configuration, OpenAIApi } = require('openai');
+const { Configuration, OpenAI } = require('openai');
 
-const openai = new OpenAIApi(new Configuration({
-    apiKey: process.env.API_KEY
-}));
+
+const openai = new OpenAI({
+    organization: process.env.ORGANIZATION_ID,
+    apiKey: process.env.API_KEY});
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,16 +25,17 @@ module.exports = {
         const messages = [{ role: 'user', content: `User: ${userMessage}` }];
             try {
         //This is how you send a message back to the user
-        const response = await openai.createChatCompletion({
-            model: 'gpt-3.5-turbo',
+        const response = await openai.chat.completions.create({
+            model: 'gpt-4',
             temperature: 0.9,
             n: 1,
             messages,
             stop: ['Human:', 'AI:'],
         });
       
-        const aiResponse = response.data.choices[0].message.content;
-        console.log(response.data.usage.total_tokens);
+        const aiResponse = response.choices[0].message.content;
+        console.log(response.usage.total_tokens);
+        console.log(response.model);
         await interaction.editReply(`${interaction.user.tag}: ${userMessage} \n\nAI: ${aiResponse}`);
     } catch (error) {
         console.error(`Error executing ${interaction.commandName}`);
